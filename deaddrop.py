@@ -162,7 +162,7 @@ DeadDrop Usage:
     ──────────────────────────────────────║║ Server
     ──────────────────────────────────────╚╝
     """)
-                app = web.Application()
+                app = web.Application(client_max_size=0)
                 app.add_routes([web.post('/DFIR/DeadDrop', DFIR_Dead_Drop_Server)])
                 web.run_app(app, port=8081)
             if sys.argv[1] == '--client' and sys.argv[2] in ('-f','-h') and sys.argv[4] in ('-f','-h'):
