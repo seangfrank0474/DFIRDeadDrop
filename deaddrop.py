@@ -98,7 +98,7 @@ def dead_dga_algorithm(key_domain):
     domains = domain
     return domains
 
-# Server function that checks for a specific User-Agent and a hashed key in the ETage header. Watis for post and writes evidence sent from client to file.
+# Server function that checks for a specific User-Agent and a hashed key in the ETag header. Watis for post and writes evidence sent from client to file.
 async def DFIR_Dead_Drop_Server(request):
     dead_hdr_key = dead_dga_algorithm('key')
     dead_hsh_key = hash_keys_hosts(dead_hdr_key)
