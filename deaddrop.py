@@ -148,7 +148,7 @@ if __name__ == '__main__':
             print(Fore.CYAN + r"""
 DeadDrop Usage:
     DeadDrop Server - python3 ./deaddrop.py --server
-    DeadDrop Client - python3 ./deaddrop.py --client -h http:<deaddrop server> -f <dfir_file_path>.7z
+    DeadDrop Client - python3 ./deaddrop.py --client -h http://<ip or domain of server> -f </path/to/file/here.extension>
 """)
         if len(sys.argv) > 1:
             if sys.argv[1] == '--server':
@@ -192,6 +192,6 @@ DeadDrop Usage:
         print(Fore.CYAN + r"""
 DeadDrop Usage:
     DeadDrop Server - python3 ./deaddrop.py --server
-    DeadDrop Client - python3 ./deaddrop.py --client -h http:<deaddrop server> -f <dfir_file_path>.7z
+    DeadDrop Client - python3 ./deaddrop.py --client -h http://<ip or domain of server> -f </path/to/file/here.extension>
 """)
         sys.exit(1)
