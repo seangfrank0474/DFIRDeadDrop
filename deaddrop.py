@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#
+# DFIR Deaddrop - quick http client/server file transfer for IR evidence collection. 
+# This is http only so password protect or encrypt the evidence prior to transfer
+# Author: Sean Frank 
+
 import aiofiles
 import aiohttp
 import asyncio
@@ -18,7 +21,7 @@ from Crypto.Cipher import AES
 from datetime import datetime
 from datetime import date
 
-# Key
+# Cipher/Encrypt/Hash Functions. Currently only using the hashing function to hash the DGA key for the ETag Header.
 def _getcipher():
     key_var = "key"
     enc_key = dead_dga_algorithm(key_var)
@@ -49,7 +52,8 @@ def hash_keys_hosts(keys_hosts):
     host_hash = hashlib.sha256(keys_hosts.encode('utf-8')).hexdigest()
     return host_hash
 
-# DGA
+# DGA Function. Currently only being used to create a key for the ETag header verification
+# Seeds can be change so as not to use the same key.
 def _dead_month_seed():
     mnthseed = {
         '01': '12711234',
@@ -94,9 +98,7 @@ def dead_dga_algorithm(key_domain):
     domains = domain
     return domains
 
-#log_time = datetime.now().strftime('%Y%m%dT%H%M%S')
-
-# Server
+# Server function that checks for a specific User-Agent and a hashed key in the ETage header. Watis for post and writes evidence sent from client to file.
 async def DFIR_Dead_Drop_Server(request):
     dead_hdr_key = dead_dga_algorithm('key')
     dead_hsh_key = hash_keys_hosts(dead_hdr_key)
@@ -116,7 +118,7 @@ async def DFIR_Dead_Drop_Server(request):
     else:
         return web.HTTPNotFound()
 
-# Client
+# Client function with a preset URI, and User-Agent and ETag headers. Opens and reads evidence file to be streamed to the server.
 async def DFIR_Dead_Drop_Client(dead_host,dead_file):
     dead_url = dead_host + ":8081/DFIR/DeadDrop"
     dead_post_ua = "DFIR_DeadDrop UserAgent"
@@ -135,13 +137,6 @@ async def DFIR_Dead_Drop_Client(dead_host,dead_file):
         dead_post_resp = str(e)
     return dead_post_resp
     
-#async def my_coroutine(session, headers, my_data):
-#    data = zlib.compress(my_data)
-#    headers = {'Content-Encoding': 'deflate'}
-#    async with session.post('http://httpbin.org/post',
-#                            data=data,
-#                            headers=headers)
-
 if __name__ == '__main__':
     try:
         if len(sys.argv) == 1:
@@ -163,8 +158,8 @@ DeadDrop Usage:
     ──────────────────────────────────────╚╝
     """)
                 app = web.Application(client_max_size=0)
-                app.add_routes([web.post('/DFIR/DeadDrop', DFIR_Dead_Drop_Server)])
-                web.run_app(app, port=8081)
+                app.add_routes([web.post('/DFIR/DeadDrop', DFIR_Dead_Drop_Server)]) # The URI can be changed be sure to change the client to reflect URI change.
+                web.run_app(app, port=8081) # Port can be changed be sure to change client to reflect the port change.
             if sys.argv[1] == '--client' and sys.argv[2] in ('-f','-h') and sys.argv[4] in ('-f','-h'):
                 print(Fore.GREEN + r"""
     ╔═══╦═══╦══╦═══╗╔═══╗───────╔╦═══╗
