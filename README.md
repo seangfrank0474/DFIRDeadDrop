@@ -1,5 +1,5 @@
 # DFIRDeadDrop
-Took some of my code from the nightshift C2 and created a quick client/server script to pull DFIR evidence off of a machine to a machine where the forensics work will occur. Also created an exe for Windows. This is only using http so be sure to password/encypt any evidence prior to transfer. Also if you want to change the keys for the DGA/hash function you can and if you want to change the port or URI you can do that too. I just used pyinstaller to make the exe. You will have to rerun pyinstaller to reflect the changes made to the python script.
+Took some of my code from the nightshift C2 and created a quick client/server script to pull DFIR evidence off of a machine to a machine where the forensics work will occur. Also created an exe for Windows. This is only using http so be sure to password protect/encypt any evidence prior to transfer. Also if you want to change the keys for the DGA/hash function you can and if you want to change the port or URI you can do that too. I just used pyinstaller to make the exe. You will have to rerun pyinstaller to reflect the changes made to the python script.
 
 <dl>
   <dt><b>Usage:</b></dt>
